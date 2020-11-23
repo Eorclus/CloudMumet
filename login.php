@@ -4,7 +4,7 @@
 if(isset($_POST['submit'])&&!empty($_POST['submit'])){
     
     $hashpassword = md5($_POST['password']);
-    $sql ="select *from public.users where name = '".pg_escape_string($_POST['name'])."' and password ='".$hashpassword."'";
+    $sql ="select *from public.users where name = '".pg_escape_literal($_POST['name'])."' and password ='".$hashpassword."'";
     $data = pg_query($conn,$sql); 
     $login_check = pg_num_rows($data);
     if($login_check > 0){ 
