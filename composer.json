@@ -1,0 +1,12 @@
+{
+    "name": "master-x/prak7",
+    "require": {
+        "csanquer/pdo-service-provider": "^1.0"
+    },
+    "authors": [
+        {
+            "name": "Eorclus",
+            "email": "aldzikridp@gmail.com"
+        }
+    ]
+}
