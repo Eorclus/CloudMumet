@@ -30,24 +30,18 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 <body>
-<div class="container">
   <h2>Login</h2>
   <form method="post">
   
      
-    <div class="form-group" action="">
       <label>name</label>
       <input type="text" class="form-control" id="name" placeholder="Masukkan username" name="name">
-    </div>
     
      
-    <div class="form-group">
       <label>Password</label>
       <input type="password" class="form-control" id="password" placeholder="Masukkan password" name="pasword">
-    </div>
      
     <input type="submit" name="login" class="btn btn-primary" value="login">
   </form>
-</div>
 </body>
 </html>
