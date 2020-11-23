@@ -1,24 +1,20 @@
 <?php
     session_start();
     $conn = pg_connect(getenv("postgres://eahoyfmznokkdb:29116c045b75e0e039064e2f54a47a040265b0ee395e8eb1ed425190d7c833cb@ec2-54-166-114-48.compute-1.amazonaws.com:5432/d78vvls71tq6c"));
-    if (isset($_POST['login'])) {
-        $name = $_POST['name'];
-        $password = $_POST['password'];
-        $query = $conn->prepare("SELECT * FROM users WHERE name=:name");
-        $query->bindParam("name", $name, PDO::PARAM_STR);
-        $query->execute();
-        $result = $query->fetch(PDO::FETCH_ASSOC);
-        if (!$result) {
-            echo '<p class="error">Username password combination is wrong!</p>';
-        } else {
-            if (password_verify($password, $result['password'])) {
-                $_SESSION['user_id'] = $result['id'];
-                header("location: index.php");
-            } else {
-                echo '<p class="error">Username password combination is wrong!</p>';
-            }
-        }
+if(isset($_POST['submit'])&&!empty($_POST['submit'])){
+    
+    $hashpassword = md5($_POST['password']);
+    $sql ="select *from public.users where name = '".pg_escape_string($_POST['name'])."' and password ='".$hashpassword."'";
+    $data = pg_query($dbconn,$sql); 
+    $login_check = pg_num_rows($data);
+    if($login_check > 0){ 
+        
+        echo "Login Successfully";    
+    }else{
+        
+        echo "Invalid Details";
     }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -46,7 +42,7 @@
       <input type="password" class="form-control" id="password" placeholder="Masukkan password" name="pasword">
     </div>
      
-    <input type="submit" name="login" class="btn btn-primary" value="login">
+    <input type="submit" name="login" class="btn btn-primary" value="submit">
   </form>
 </div>
 </body>
