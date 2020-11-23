@@ -9,7 +9,6 @@ if(isset($_POST['submit'])&&!empty($_POST['submit'])){
     $login_check = pg_num_rows($data);
     if($login_check > 0){ 
         session_start();
-        echo "Login Successfully";    
         $_SESSION["loggedin"] = true;
         header("location: index.php");
     }else{
