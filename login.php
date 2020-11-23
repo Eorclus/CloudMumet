@@ -2,10 +2,10 @@
     session_start();
     include('config.php');
     if (isset($_POST['login'])) {
-        $username = $_POST['username'];
+        $name = $_POST['name'];
         $password = $_POST['password'];
-        $query = $connection->prepare("SELECT * FROM users WHERE username=:username");
-        $query->bindParam("username", $username, PDO::PARAM_STR);
+        $query = $connection->prepare("SELECT * FROM users WHERE name=:name");
+        $query->bindParam("name", $name, PDO::PARAM_STR);
         $query->execute();
         $result = $query->fetch(PDO::FETCH_ASSOC);
         if (!$result) {
@@ -36,8 +36,8 @@
   
      
     <div class="form-group" action="">
-      <label>Username</label>
-      <input type="text" class="form-control" id="username" placeholder="Masukkan username" name="username">
+      <label>name</label>
+      <input type="text" class="form-control" id="name" placeholder="Masukkan username" name="name">
     </div>
     
      
