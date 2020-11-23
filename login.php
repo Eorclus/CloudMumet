@@ -39,7 +39,7 @@ if(isset($_POST['submit'])&&!empty($_POST['submit'])){
      
     <div class="form-group">
       <label>Password</label>
-      <input type="password" class="form-control" id="password" placeholder="Masukkan password" name="pasword">
+      <input type="password" class="form-control" id="password" placeholder="Masukkan password" name="password">
     </div>
      
     <input type="submit" name="login" class="btn btn-primary" value="submit">
