@@ -17,7 +17,8 @@ $app->register(
 
 if(isset($_POST['submit'])&&!empty($_POST['submit'])){
     $hashpassword = md5($_POST['password']);
-    $res = $app['pdo']->prepare("select * from public.users where name = '".pg_escape_literal($_POST['name'])."' and password ='".$hashpassword."'");
+    $uname = $_POST['name']
+    $res = $app['pdo']->prepare("select * from public.users where name = '{$uname}' and password ='{$hashpassword}'");
     $data = pg_query($res); 
     $login_check = pg_num_rows($data);
     if($login_check > 0){ 
