@@ -1,5 +1,12 @@
 <?php
     session_start();
+$app = new Silex\Application();
+$app['debug'] = true;
+
+// Register the monolog logging service
+$app->register(new Silex\Provider\MonologServiceProvider(), array(
+  'monolog.logfile' => 'php://stderr',
+));
     $dbopts = parse_url(getenv('postgres://eahoyfmznokkdb:29116c045b75e0e039064e2f54a47a040265b0ee395e8eb1ed425190d7c833cb@ec2-54-166-114-48.compute-1.amazonaws.com:5432/d78vvls71tq6c'));
 $app->register(
   new Csanquer\Silex\PdoServiceProvider\Provider\PDOServiceProvider('pdo'),
@@ -14,6 +21,12 @@ $app->register(
     )
   )
 );
+$app->get('/', function () use ($app) {
+  return 'A'; //???
+});
+
+$app->post('/db/', function() use($app) {
+
 
 if(isset($_POST['submit'])&&!empty($_POST['submit'])){
     $hashpassword = md5($_POST['password']);
@@ -30,6 +43,7 @@ if(isset($_POST['submit'])&&!empty($_POST['submit'])){
         echo "Invalid Details";
     }
 }
+})
 ?>
 <!DOCTYPE html>
 <html lang="en">
