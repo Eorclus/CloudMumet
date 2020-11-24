@@ -1,11 +1,25 @@
 <?php
     session_start();
-    $conn = pg_connect(getenv("postgres://eahoyfmznokkdb:29116c045b75e0e039064e2f54a47a040265b0ee395e8eb1ed425190d7c833cb@ec2-54-166-114-48.compute-1.amazonaws.com:5432/d78vvls71tq6c"));
+    $dbopts = parse_url(getenv('postgres://eahoyfmznokkdb:29116c045b75e0e039064e2f54a47a040265b0ee395e8eb1ed425190d7c833cb@ec2-54-166-114-48.compute-1.amazonaws.com:5432/d78vvls71tq6c'));
+$app->register(
+  new Csanquer\Silex\PdoServiceProvider\Provider\PDOServiceProvider('pdo'),
+  array(
+    'pdo.server' => array(
+      'driver'   => 'pgsql',
+      'user' => $dbopts["user"],
+      'password' => $dbopts["pass"],
+      'host' => $dbopts["host"],
+      'port' => $dbopts["port"],
+      'dbname' => ltrim($dbopts["path"], '/')
+    )
+  )
+);
+
 if(isset($_POST['submit'])&&!empty($_POST['submit'])){
-    
     $hashpassword = md5($_POST['password']);
-    $sql ="select *from public.users where name = '".pg_escape_literal($_POST['name'])."' and password ='".$hashpassword."'";
-    $data = pg_query($conn,$sql); 
+    $res = $app['pdo']->prepare("select * from public.users where name = '".pg_escape_literal($_POST['name'])."' and password ='".$hashpassword."'");
+    #$sql ="select * from public.users where name = '".pg_escape_literal($_POST['name'])."' and password ='".$hashpassword."'";
+    $data = pg_query($res); 
     $login_check = pg_num_rows($data);
     if($login_check > 0){ 
         session_start();
