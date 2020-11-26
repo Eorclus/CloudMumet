@@ -21,11 +21,8 @@ $app->register(
     )
   )
 );
-$app->get('/', function () use ($app) {
-  return 'A'; //???
-});
 
-$app->post('/db/', function() use($app) {
+$app->get('/db/', function() use($app) {
 
 
 if(isset($_POST['submit'])&&!empty($_POST['submit'])){

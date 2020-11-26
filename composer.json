@@ -1,12 +1,15 @@
 {
     "name": "master-x/prak7",
     "require": {
-        "csanquer/pdo-service-provider": "^1.0"
+        "csanquer/pdo-service-provider": "^1.0",
+        "felixfbecker/language-server": "^5.4"
     },
     "authors": [
         {
             "name": "Eorclus",
             "email": "aldzikridp@gmail.com"
         }
-    ]
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
