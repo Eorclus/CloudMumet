@@ -1,45 +1,40 @@
 <?php
-    session_start();
+session_start();
 $app = new Silex\Application();
 $app['debug'] = true;
-
 // Register the monolog logging service
 $app->register(new Silex\Provider\MonologServiceProvider(), array(
-  'monolog.logfile' => 'php://stderr',
+    'monolog.logfile' => 'php://stderr',
 ));
-    $dbopts = parse_url(getenv('postgres://eahoyfmznokkdb:29116c045b75e0e039064e2f54a47a040265b0ee395e8eb1ed425190d7c833cb@ec2-54-166-114-48.compute-1.amazonaws.com:5432/d78vvls71tq6c'));
+$dbopts = parse_url(getenv('postgres://eahoyfmznokkdb:29116c045b75e0e039064e2f54a47a040265b0ee395e8eb1ed425190d7c833cb@ec2-54-166-114-48.compute-1.amazonaws.com:5432/d78vvls71tq6c'));
 $app->register(
-  new Csanquer\Silex\PdoServiceProvider\Provider\PDOServiceProvider('pdo'),
-  array(
-    'pdo.server' => array(
-      'driver'   => 'pgsql',
-      'user' => $dbopts["user"],
-      'password' => $dbopts["pass"],
-      'host' => $dbopts["host"],
-      'port' => $dbopts["port"],
-      'dbname' => ltrim($dbopts["path"], '/')
+    new Csanquer\Silex\PdoServiceProvider\Provider\PDOServiceProvider('pdo'),
+    array(
+        'pdo.server' => array(
+            'driver'   => 'pgsql',
+            'user' => $dbopts["user"],
+            'password' => $dbopts["pass"],
+            'host' => $dbopts["host"],
+            'port' => $dbopts["port"],
+            'dbname' => ltrim($dbopts["path"], '/')
+        )
     )
-  )
 );
-
 $app->get('/db/', function() use($app) {
-
-
-if(isset($_POST['submit'])&&!empty($_POST['submit'])){
-    $hashpassword = md5($_POST['password']);
-    $uname = $_POST['name']
-    $res = $app['pdo']->prepare("select * from public.users where name = '{$uname}' and password ='{$hashpassword}'");
-    $data = pg_query($res); 
-    $login_check = pg_num_rows($data);
-    if($login_check > 0){ 
-        session_start();
-        $_SESSION["loggedin"] = true;
-        header("location: index.php");
-    }else{
-        
-        echo "Invalid Details";
+    if(isset($_POST['submit'])&&!empty($_POST['submit'])){
+        $hashpassword = md5($_POST['password']);
+        $uname = $_POST['name']
+            $res = $app['pdo']->prepare("select * from public.users where name = '{$uname}' and password ='{$hashpassword}'");
+        $data = pg_query($res); 
+        $login_check = pg_num_rows($data);
+        if($login_check > 0){ 
+            session_start();
+            $_SESSION["loggedin"] = true;
+            header("location: index.php");
+        }else{
+            echo "Invalid Details";
+        }
     }
-}
 })
 ?>
 <!DOCTYPE html>
