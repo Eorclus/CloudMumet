@@ -53,7 +53,7 @@ $app->get('/db/', function() use($app) {
   <form method="post">
   
      
-    <div class="form-group" action="">
+    <div class="form-group">
       <label>name</label>
       <input type="text" class="form-control" id="name" placeholder="Masukkan username" name="name">
     </div>
